@@ -6,18 +6,30 @@ const statusVenda = {
 };
 
 function main() {
-    let totalGeral      = 0;
-    let vendasAprovadas = 0;
-    let rankingVendas   = {};
-    let rankingArr;
-    let displayString   = "";
 
     if(vendas.length == 0) {
         console.log("Nenhum vendedor contabilizado")
         return -1;
     }
 
-    vendas.forEach((venda => {
+    const { totalGeral, vendasAprovadas, rankingVendas } = parseVendasInfo(vendas);  
+
+    const rankingArr = formatRankingVendas(rankingVendas);    
+
+    displayInfoVendas(totalGeral, vendasAprovadas, rankingArr)
+
+}
+
+function parseVendasInfo(vendasArr) {
+    let totalGeral      = 0;
+    let vendasAprovadas = 0;
+    let rankingVendas   = {};
+
+    if(vendasArr.length == 0) {
+        throw new Error("Nenhum vendedor contabilizado");
+    }
+
+    vendasArr.forEach((venda => {
         let vendedor = venda.vendedor;
         let valor    = venda.valor;
         let status   = venda.status;
@@ -37,23 +49,7 @@ function main() {
         }
     }));
 
-    rankingArr = formatRankingVendas(rankingVendas);    
-
-    const topVendedor = rankingArr[0];
-
-    displayString += `Total Geral: ${totalGeral} \n`;
-
-    if(vendasAprovadas == 0) {
-        displayString += `Ticket Medio: ${totalGeral} \n`;
-    } else {
-        displayString += `Ticket Medio ${totalGeral / vendasAprovadas} \n`;
-    }
-
-    displayString += `Top Vendedor: ${topVendedor.vendedor} - ${topVendedor.total} \n`;
-
-    console.log(displayString);
-    console.log("--------------------------")
-    console.log(rankingArr);
+    return { totalGeral, vendasAprovadas, rankingVendas};
 }
 
 function validateVenda({ vendedor, valor }) {
@@ -76,6 +72,25 @@ function formatRankingVendas(rankingObj) {
     rankingArr = rankingArr.sort(({total: totalA}, {total: totalB}) => totalB - totalA);
 
     return rankingArr;
+}
+
+function displayInfoVendas(totalGeral, vendasAprovadas, rankingVendas) {
+    let displayString = "";
+    const topVendedor = rankingVendas[0];
+
+    displayString += `Total Geral: ${totalGeral} \n`;
+
+    if(vendasAprovadas == 0) {
+        displayString += `Ticket Medio: ${totalGeral} \n`;
+    } else {
+        displayString += `Ticket Medio ${totalGeral / vendasAprovadas} \n`;
+    }
+
+    displayString += `Top Vendedor: ${topVendedor.vendedor} - ${topVendedor.total} \n`;
+
+    console.log(displayString);
+    console.log("--------------------------")
+    console.log(rankingVendas);
 }
 
 main();
