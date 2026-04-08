@@ -7,16 +7,17 @@ const statusVenda = {
 
 function main() {
 
-    if(vendas.length == 0) {
-        console.log("Nenhum vendedor contabilizado")
+    try {
+        const { totalGeral, vendasAprovadas, rankingVendas } = parseVendasInfo(vendas);  
+
+        const rankingArr = formatRankingVendas(rankingVendas);    
+
+        displayInfoVendas(totalGeral, vendasAprovadas, rankingArr);
+
+    } catch(e) {
+        console.error(e.message);
         return -1;
     }
-
-    const { totalGeral, vendasAprovadas, rankingVendas } = parseVendasInfo(vendas);  
-
-    const rankingArr = formatRankingVendas(rankingVendas);    
-
-    displayInfoVendas(totalGeral, vendasAprovadas, rankingArr)
 
 }
 
@@ -30,12 +31,11 @@ function parseVendasInfo(vendasArr) {
     }
 
     vendasArr.forEach((venda => {
+        validateVenda(venda);
+
         let vendedor = venda.vendedor;
         let valor    = venda.valor;
         let status   = venda.status;
-
-        if(!validateVenda(venda))        
-            return;
 
         if(status == statusVenda.aprovada) {
             totalGeral += valor;
@@ -49,24 +49,24 @@ function parseVendasInfo(vendasArr) {
         }
     }));
 
-    return { totalGeral, vendasAprovadas, rankingVendas};
+    return { totalGeral, vendasAprovadas, rankingVendas };
 }
 
-function validateVenda({ vendedor, valor }) {
-    let valid = true;
-
-    if(!vendedor || vendedor == "") 
-        valid = false;        
+function validateVenda({ vendedor, valor, status }) {
+    if(!vendedor || vendedor == '') 
+        throw new Error("Vendedor sem nome");
 
     if(!valor || valor == 0)
-        valid = false;
+        throw new Error("Venda sem valor");
 
-    return valid;
+    if(!status || !Object.values(statusVenda).includes(status))
+        throw new Error("Status invalido");
+
 }
 
 function formatRankingVendas(rankingObj) {
     let rankingArr = Object.entries(rankingObj).map(([key, val]) => {
-        return {vendedor: key, total: val}
+        return {vendedor: key, total: val};
     });
 
     rankingArr = rankingArr.sort(({total: totalA}, {total: totalB}) => totalB - totalA);
@@ -78,18 +78,15 @@ function displayInfoVendas(totalGeral, vendasAprovadas, rankingVendas) {
     let displayString = "";
     const topVendedor = rankingVendas[0];
 
+    if(vendasAprovadas == 0) 
+        throw new Error("Nenhuma venda aprovada");
+
     displayString += `Total Geral: ${totalGeral} \n`;
-
-    if(vendasAprovadas == 0) {
-        displayString += `Ticket Medio: ${totalGeral} \n`;
-    } else {
-        displayString += `Ticket Medio ${totalGeral / vendasAprovadas} \n`;
-    }
-
+    displayString += `Ticket Medio ${totalGeral / vendasAprovadas} \n`;
     displayString += `Top Vendedor: ${topVendedor.vendedor} - ${topVendedor.total} \n`;
 
     console.log(displayString);
-    console.log("--------------------------")
+    console.log("--------------------------");
     console.log(rankingVendas);
 }
 
