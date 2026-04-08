@@ -75,19 +75,20 @@ function formatRankingVendas(rankingObj) {
 }
 
 function displayInfoVendas(totalGeral, vendasAprovadas, rankingVendas) {
-    let displayString = "";
-    const topVendedor = rankingVendas[0];
 
     if(vendasAprovadas == 0) 
         throw new Error("Nenhuma venda aprovada");
 
-    displayString += `Total Geral: ${totalGeral} \n`;
-    displayString += `Ticket Medio ${totalGeral / vendasAprovadas} \n`;
-    displayString += `Top Vendedor: ${topVendedor.vendedor} - ${topVendedor.total} \n`;
+    let infoObj = {};
+    let ticketMedio = totalGeral / vendasAprovadas;
+    const topVendedor = rankingVendas[0];
 
-    console.log(displayString);
-    console.log("--------------------------");
-    console.log(rankingVendas);
+    infoObj["totalGeral"]  = totalGeral;
+    infoObj["ticketMedio"] = ticketMedio;
+    infoObj["topVendedor"] = topVendedor.vendedor;
+    infoObj["ranking"]     = rankingVendas;
+
+    console.log(infoObj);
 }
 
 main();
