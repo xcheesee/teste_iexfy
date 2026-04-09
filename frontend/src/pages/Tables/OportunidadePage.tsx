@@ -18,14 +18,14 @@ export default function OportunidadePage() {
   const [oportunidades, setOportunidades] = useState<Oportunidade[]|null>(null);
   const [formModalOpen, setFormModalOpen] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isLoadingEnvio, setIsLoadingEnvio] = useState<boolean>(false);
+  const [_, setIsLoadingEnvio] = useState<boolean>(false);
 
   async function getOportunidades() {
     setIsLoading(true);
     const res = await fetch(import.meta.env.VITE_API_URL + "/oportunidades");
     const data = await res.json();
 
-    await new Promise((res, rej) => setTimeout(() => res(""), 1000));
+    await new Promise((res, _) => setTimeout(() => res(""), 1000));
 
     setOportunidades(data);
     setIsLoading(false);
@@ -34,13 +34,11 @@ export default function OportunidadePage() {
   async function enviarOportunidade(payload: FormData) {
     setIsLoadingEnvio(true);
     let body = formDataToObject(payload);
-    const res = await fetch(import.meta.env.VITE_API_URL + "/oportunidades", {
+    await fetch(import.meta.env.VITE_API_URL + "/oportunidades", {
       method: "POST",
       body: JSON.stringify(body)
     });
-    console.log(body)
     setIsLoadingEnvio(false)
-
   }
 
   const [filtro, setFiltro] = useState<OportunidadeStatus | "">("");

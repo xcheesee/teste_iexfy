@@ -9,9 +9,7 @@ import Badge from "../ui/badge/Badge";
 import Oportunidade from "../../types/Oportunidade";
 import OportunidadeStatus from "../../types/OportunidadeStatus";
 import { PencilIcon } from "../../icons";
-import { useMemo, useState } from "react";
 
-// Define the table data using the interface
 interface OportunidadeTableProps {
   data: Oportunidade[] | null;
 }

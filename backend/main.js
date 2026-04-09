@@ -102,6 +102,6 @@ const server = http.createServer(async (req, res) => {
     })
 })
 
-server.listen(PORT, "127.0.0.1", () => {
-    console.log(`Servidor em http://127.0.0.1:${PORT}`);
+server.listen(PORT, "0.0.0.0", () => {
+    console.log(`Servidor em http://localhost:${PORT}`);
 })
