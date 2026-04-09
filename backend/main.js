@@ -4,6 +4,8 @@ import ApiError from "./Utils/ApiError.js";
 import runner from "./Middlewares/runner.js";
 import jsonParser from "./Middlewares/jsonParser.js";
 import logger from "./Middlewares/logger.js";
+import Oportunidade from "./Models/oportunidadeModel.js";
+import parseError from "./Utils/parseError.js";
 
 const PORT = 3000;
 
@@ -13,7 +15,7 @@ const middlewares = [
 ];
 
 function parseRes(res, {status = 200, payload = ""}) {
-    res.status = status;
+    res.statusCode = status;
     res.end(payload);
 };
 
@@ -43,20 +45,27 @@ const server = http.createServer(async (req, res) => {
                     const payload = oportunidadeController.get(id);
                     parseRes(res, {payload});
                     return;
-
                 }
             } 
 
             if(req.method === "POST" && pathArr[0] === "oportunidades" && pathArr.length === 1) {
                 const reqBody = req.body;
-                parseRes(res, {payload: JSON.stringify(reqBody)});
-                return;
 
+                const oportunidadeRow = new Oportunidade({...reqBody});
+
+                if(!oportunidadeRow.isValid()) {
+                    throw new ApiError("Body incorreto", 400, "INVALID_BODY");
+                }
+
+                oportunidadeController.insert(oportunidadeRow);
+
+                parseRes(res, {payload: JSON.stringify("Registro inserido com sucesso"), status: 201});
+                return;
             }
 
         } catch(e) {
             parseError(res, e)
-            return
+            return;
         }
     
         parseError(res, new ApiError("Url not found", 404, "INVALID_URL"));

@@ -1,0 +1,14 @@
+Log info: POST /oportunidades 500 - 2026-04-09T04:24:54.420Z 
+Log info: POST /oportunidades 500 - 2026-04-09T04:25:30.326Z 
+Log info: POST /oportunidades 400 - 2026-04-09T04:25:52.523Z 
+Log info: POST /oportunidades 400 - 2026-04-09T04:30:13.534Z 
+Log info: POST /oportunidades 400 - 2026-04-09T04:31:35.000Z 
+Log info: POST /oportunidades 400 - 2026-04-09T04:31:57.173Z 
+Log info: POST /oportunidades 500 - 2026-04-09T04:32:26.419Z 
+Log info: POST /oportunidades 200 - 2026-04-09T04:32:59.283Z 
+Log info: POST /oportunidades 200 - 2026-04-09T04:42:21.073Z 
+Log info: POST /oportunidades 200 - 2026-04-09T04:43:53.837Z 
+Log info: POST /oportunidades 201 - 2026-04-09T04:44:00.245Z 
+Log info: POST /oportunidades 400 - 2026-04-09T04:44:03.736Z 
+Log info: POST /oportunidades 400 - 2026-04-09T04:44:38.365Z 
+Log info: POST /oportunidades 400 - 2026-04-09T04:44:38.834Z 
