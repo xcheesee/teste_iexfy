@@ -19,6 +19,8 @@ async function jsonParser(req, res, next) {
                 return;
             }
         })
+    } else {
+        next();
     }
 
 }

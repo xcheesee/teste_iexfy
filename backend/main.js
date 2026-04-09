@@ -63,6 +63,31 @@ const server = http.createServer(async (req, res) => {
                 return;
             }
 
+            if(req.method === "DELETE" && pathArr[0] === "oportunidades" && pathArr.length === 2) {
+                const id = parseInt(pathArr[1]);
+
+                if(Number.isNaN(id)) 
+                    throw new ApiError("/oportunidades/:id deve ser um numero", 400, "INVALID_ID");
+
+                oportunidadeController.remove(id);
+                parseRes(res, {payload: JSON.stringify("Registro excluido com sucesso")});
+                return;
+
+            }
+
+            if(req.method === "PUT" && pathArr[0] === "oportunidades" && pathArr.length === 2) {
+                const body = req.body;
+
+                const id = parseInt(pathArr[1]);
+
+                if(Number.isNaN(id)) 
+                    throw new ApiError("/oportunidades/:id deve ser um numero", 400, "INVALID_ID");
+
+                oportunidadeController.update(id, body);
+                parseRes(res, {payload: JSON.stringify("Registro atualizado com sucesso")});
+                return;
+            }
+
         } catch(e) {
             parseError(res, e)
             return;
