@@ -62,12 +62,28 @@ function insert(oportunidade) {
     return true;
 }
 
+function overview() {
+    const query = db.prepare(`
+        SELECT
+            status,
+            COUNT(*) AS total
+        FROM ${TABLE} 
+        WHERE deleted_at IS NULL
+        GROUP BY status;
+    `);
+
+    const result = query.all();
+
+    return result;
+}
+
 const oportunidadeService = {
     get, 
     getAll, 
     remove, 
     update, 
     insert,
+    overview
 };
 
 export default oportunidadeService;

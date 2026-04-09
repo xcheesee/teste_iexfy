@@ -59,12 +59,19 @@ function update(id, oportunidade) {
     return;
 }
 
+function overview() {
+    const dados = oportunidadeService.overview();
+
+    return JSON.stringify(dados);
+}
+
 const oportunidadeController = { 
     getAll, 
     get, 
     insert,
     update,
-    remove 
+    remove,
+    overview
 };
 
 export default oportunidadeController

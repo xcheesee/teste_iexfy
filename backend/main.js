@@ -30,6 +30,11 @@ const server = http.createServer(async (req, res) => {
         const pathArr = parsed.pathname.split('/').filter(val => val != '');
 
         try {
+              if (req.method === "OPTIONS") {
+                res.writeHead(204);
+                res.end();
+                return;
+              }
             if(req.method === "GET" && pathArr[0] === "oportunidades") {
                 if(pathArr.length === 1) {
 
@@ -90,6 +95,13 @@ const server = http.createServer(async (req, res) => {
                 parseRes(res, {payload: JSON.stringify("Registro atualizado com sucesso")});
                 return;
             }
+
+            if(req.method === "GET" && pathArr[0] === "overview" && pathArr.length === 1) {
+                    const payload = oportunidadeController.overview();
+                    parseRes(res, {payload})
+                    return;
+            }
+
 
         } catch(e) {
             parseError(res, e)

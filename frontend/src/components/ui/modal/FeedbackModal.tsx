@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useFeedbackModal } from "../../providers/FeedbackModalProvider";
 import { Modal } from "./index";
 import Button from "../button/Button";
@@ -19,11 +19,11 @@ export function FeedbackModal() {
 
   if (!state.open) return null;
 
-  const colors: Record<string, string> = {
-    success: "#2e7d32",
-    warning: "#ed6c02",
-    error: "#d32f2f",
-  };
+  //const colors: Record<string, string> = {
+  //  success: "#2e7d32",
+  //  warning: "#ed6c02",
+  //  error: "#d32f2f",
+  //};
 
   return (
     <Modal 
