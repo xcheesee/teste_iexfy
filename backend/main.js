@@ -21,6 +21,9 @@ function parseRes(res, {status = 200, payload = ""}) {
 
 const server = http.createServer(async (req, res) => {
     runner(req, res, middlewares, async (req, res) => {
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE, OPTIONS");
+        res.setHeader("Access-Control-Allow-Headers", "Content-Type");
         res.setHeader("Content-Type", "application/json");
 
         const parsed = new URL(req.url, `http://${req.headers.host}`);

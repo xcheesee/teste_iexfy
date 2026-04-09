@@ -8,7 +8,7 @@ Implementar uma aplicacao fullstack de um painel de oportunidades comerciais
 
 #### Frontend
 
-- Interface para consumo de api, 
+- Interface para consumo de api simples, sem autenticacao e SEO 
 
 #### Backend
 
