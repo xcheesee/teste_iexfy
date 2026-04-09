@@ -24,7 +24,7 @@ function getAll() {
 //function update(oportunidade) {
 //
 //}
-//
+
 function insert(oportunidade) {
     const query = db.prepare(`
         INSERT INTO ${TABLE} (cliente, status, valor, data)
