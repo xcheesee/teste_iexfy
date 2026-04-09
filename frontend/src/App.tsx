@@ -4,10 +4,13 @@ import OportunidadePage from "./pages/Tables/OportunidadePage";
 import AppLayout from "./layout/AppLayout";
 import { ScrollToTop } from "./components/common/ScrollToTop";
 import Home from "./pages/Dashboard/Home";
+import { FeedbackModalProvider } from "./components/providers/FeedbackModalProvider";
+import { FeedbackModal } from "./components/ui/modal/FeedbackModal";
 
 export default function App() {
   return (
     <>
+      <FeedbackModalProvider>
       <Router>
         <ScrollToTop />
         <Routes>
@@ -19,6 +22,8 @@ export default function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
+      <FeedbackModal />
+    </FeedbackModalProvider>
     </>
   );
 }

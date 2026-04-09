@@ -13,12 +13,14 @@ import Input from "../../components/form/input/InputField";
 import Select from "../../components/form/Select";
 import formDataToObject from "../../utils/formDataToObject";
 import OportunidadeStatus from "../../types/OportunidadeStatus";
+import { useFeedbackModal } from "../../components/providers/FeedbackModalProvider";
 
 export default function OportunidadePage() {
   const [oportunidades, setOportunidades] = useState<Oportunidade[]|null>(null);
   const [formModalOpen, setFormModalOpen] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [_, setIsLoadingEnvio] = useState<boolean>(false);
+  const [isLoadingEnvio, setIsLoadingEnvio] = useState<boolean>(false);
+  const { show: showFeedbackModal } = useFeedbackModal();
 
   async function getOportunidades() {
     setIsLoading(true);
@@ -32,13 +34,24 @@ export default function OportunidadePage() {
   }
 
   async function enviarOportunidade(payload: FormData) {
-    setIsLoadingEnvio(true);
-    let body = formDataToObject(payload);
-    await fetch(import.meta.env.VITE_API_URL + "/oportunidades", {
-      method: "POST",
-      body: JSON.stringify(body)
-    });
-    setIsLoadingEnvio(false)
+    try {
+      setIsLoadingEnvio(true);
+      let body = formDataToObject(payload);
+      await new Promise((res, _) => setTimeout(() => res(""), 1000));
+
+      await fetch(import.meta.env.VITE_API_URL + "/oportunidades", {
+        method: "POST",
+        body: JSON.stringify(body)
+      });
+
+      setIsLoadingEnvio(false);
+      showFeedbackModal("Sucesso!", "Oportunidade enviada com sucesso!");
+      getOportunidades();
+
+    } catch(e){
+      setIsLoadingEnvio(false);
+      showFeedbackModal("Atencao", "Erro ao enviar registro! \n" + (e as Error).message, "error");
+    }
   }
 
   const [filtro, setFiltro] = useState<OportunidadeStatus | "">("");
@@ -82,7 +95,9 @@ export default function OportunidadePage() {
             :  <OportunidadeTable data={filtrados} />
           }
           <div className="w-full flex md:justify-end justify-stretch">
-            <Button className="bg-green-600 w-full" onClick={() => setFormModalOpen(true)}> <PlusIcon />Adicionar</Button>
+            <Button className="bg-green-600 w-full" onClick={() => setFormModalOpen(true)}> 
+              <PlusIcon />Adicionar
+            </Button>
           </div>
         </ComponentCard>
       </div>
@@ -119,7 +134,10 @@ export default function OportunidadePage() {
                 <Input placeholder="1234,56" type="text" name="valor"/>
               </div>
 
-              <Button type="submit">Enviar</Button>
+              <Button type="submit">
+                {isLoadingEnvio && <Spinner />}
+                Enviar
+              </Button>
             </Form>
           </div>
         </Modal>
