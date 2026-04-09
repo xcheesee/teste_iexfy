@@ -10,7 +10,7 @@ function logger(req, res, next) {
 
             const message = `Log ${LOG.INFO}: ${req.method} ${req.url} ${res.statusCode} - ${new Date().toISOString()} \n`;
         
-            fs.appendFile(logsFilePath, message, (err) => {
+            fs.writeFile(logsFilePath, message, { flag: 'a'}, (err) => {
                 if(err)
                     console.error("Falha ao salvar log: ", err);
             });
