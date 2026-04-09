@@ -4,8 +4,8 @@ class Oportunidade {
     constructor({cliente, status, valor, data}) {
         this.cliente = cliente;
         this.status = status;
-        this.valor = valor;
-        this.data = data;
+        this.valor = valor.replace(/\D+/g, "");
+        this.data = new Date().toISOString();
     }
 
     isValid() {
@@ -14,10 +14,12 @@ class Oportunidade {
             this.cliente == ""            || 
             !Status.includes(this.status) ||
             !this.valor                   ||
-            !this.data
+            this.valor == ""
         ) {
                 return false;
         }
+
+        if(this.valor)
 
         return true;
     }

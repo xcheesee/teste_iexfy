@@ -9,6 +9,7 @@ import Badge from "../ui/badge/Badge";
 import Oportunidade from "../../types/Oportunidade";
 import OportunidadeStatus from "../../types/OportunidadeStatus";
 import { PencilIcon } from "../../icons";
+import { useMemo, useState } from "react";
 
 // Define the table data using the interface
 interface OportunidadeTableProps {
@@ -17,6 +18,7 @@ interface OportunidadeTableProps {
 function OportunidadeTable({
   data
 }: OportunidadeTableProps) {
+
   return (
     <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
       <div className="max-w-full overflow-x-auto">
