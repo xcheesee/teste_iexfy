@@ -19,7 +19,11 @@ class Oportunidade {
                 return false;
         }
 
-        if(this.valor)
+        const isNumeric = /^\d+$/;
+
+        if(!isNumeric.test(this.valor)) {
+            return false
+        } 
 
         return true;
     }
