@@ -5,7 +5,7 @@ interface Oportunidade {
     cliente: string;
     status: OportunidadeStatus;
     valor: number;
-    data: string
+    data?: string
 };
 
 export default Oportunidade;

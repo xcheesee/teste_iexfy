@@ -17,9 +17,16 @@ import { useFeedbackModal } from "../../components/providers/FeedbackModalProvid
 
 export default function OportunidadePage() {
   const [oportunidades, setOportunidades] = useState<Oportunidade[]|null>(null);
+  const [currOportunidade, setCurrOportunidade] = useState<Oportunidade|null>(null);
+
   const [formModalOpen, setFormModalOpen] = useState<boolean>(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false)
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isLoadingEnvio, setIsLoadingEnvio] = useState<boolean>(false);
+
+  const [isEdit, setIsEdit] = useState(false);
+
   const { show: showFeedbackModal } = useFeedbackModal();
 
   async function getOportunidades() {
@@ -39,19 +46,81 @@ export default function OportunidadePage() {
       let body = formDataToObject(payload);
       await new Promise((res, _) => setTimeout(() => res(""), 1000));
 
-      await fetch(import.meta.env.VITE_API_URL + "/oportunidades", {
-        method: "POST",
-        body: JSON.stringify(body)
-      });
+      if(isEdit) {
+        await fetch(import.meta.env.VITE_API_URL + "/oportunidades/" + body.id, {
+          method: "PATCH",
+          body: JSON.stringify(body)
+        });
+
+        showFeedbackModal("Sucesso!", "Oportunidade alterada com sucesso!");
+      } else {
+        await fetch(import.meta.env.VITE_API_URL + "/oportunidades", {
+          method: "POST",
+          body: JSON.stringify(body)
+        });
+
+        showFeedbackModal(
+          "Sucesso!", 
+          "Oportunidade enviada com sucesso!", 
+          "success", 
+          () => {setFormModalOpen(false)}
+        );
+      }
 
       setIsLoadingEnvio(false);
-      showFeedbackModal("Sucesso!", "Oportunidade enviada com sucesso!");
       getOportunidades();
 
     } catch(e){
       setIsLoadingEnvio(false);
       showFeedbackModal("Atencao", "Erro ao enviar registro! \n" + (e as Error).message, "error");
     }
+  }
+
+  async function deleteOportunidade(id: number | undefined) {
+    try {
+      if(!id) {
+        throw new Error("Id nao encontrado");
+      }
+
+      setIsLoadingEnvio(true);
+
+      await fetch(import.meta.env.VITE_API_URL + "/oportunidades/" + id, {
+        method: "DELETE"
+      });
+
+      await new Promise((res, _) => setTimeout(() => res(""), 1000));
+
+      showFeedbackModal(
+        "Registro excluido", 
+        "Oportunidade excluida com sucesso",
+        "success",
+        () => setDeleteModalOpen(false)
+      );
+      setIsLoadingEnvio(false);
+      getOportunidades();
+    } catch(e) {
+      showFeedbackModal("Erro", "Ocorreu um erro! \n" + (e as Error).message);
+      setIsLoadingEnvio(false);
+    }
+
+  }
+
+  function handleEditOportunidade(oportunidade: Oportunidade) {
+    setCurrOportunidade(oportunidade);
+    setIsEdit(true);
+    setFormModalOpen(true);
+  }
+
+  function hadleAddOportunidade() {
+    setCurrOportunidade(null);
+    setIsEdit(false);
+    setFormModalOpen(true);
+  }
+
+  function handleDeleteOportunidade(oportunidade: Oportunidade) {
+    setCurrOportunidade(oportunidade);
+
+    setDeleteModalOpen(true);
   }
 
   const [filtro, setFiltro] = useState<OportunidadeStatus | "">("");
@@ -85,17 +154,19 @@ export default function OportunidadePage() {
                 {label: "Perdidas", value: "Perdida"},
                 {label: "Ganha", value: "Ganha"}
               ]}
-              onChange={(e) => {
-                setFiltro(e as OportunidadeStatus)
-              }}
+              onChange={(e) => { setFiltro(e as OportunidadeStatus) }}
             />
           </div>
           {isLoading 
-            ? <div className="w-full flex justify-center"><Spinner /></div>
-            :  <OportunidadeTable data={filtrados} />
+            ?<div className="w-full flex justify-center"><Spinner /></div>
+            :<OportunidadeTable 
+              data={filtrados} 
+              onEditClick={handleEditOportunidade}
+              onDeleteClick={handleDeleteOportunidade}
+            />
           }
           <div className="w-full flex md:justify-end justify-stretch">
-            <Button className="bg-green-600 w-full" onClick={() => setFormModalOpen(true)}> 
+            <Button className="bg-green-600 hover:bg-green-800 w-full" onClick={hadleAddOportunidade}> 
               <PlusIcon />Adicionar
             </Button>
           </div>
@@ -103,16 +174,34 @@ export default function OportunidadePage() {
       </div>
 
       <div>
-        <Modal title="Adicionar Oportunidade" isOpen={formModalOpen} onClose={() => setFormModalOpen(false)}>
+        <Modal 
+          title={`${isEdit ? "Editar" : "Adicionar" } Oportunidade`} 
+          isOpen={formModalOpen} 
+          onClose={() => setFormModalOpen(false)}
+        >
           <div className="w-[min(100vw,700px)] p-4">
-            <Form onSubmit={(e) => {
-              const formData = new FormData(e.currentTarget);
-              enviarOportunidade(formData);
+            <Form 
+              onSubmit={(e) => {
+                const formData = new FormData(e.currentTarget);
 
-            }} className="grid gap-4">
+                enviarOportunidade(formData);
+              }} 
+              className="grid gap-4"
+            >
+              <div>
+                <Input type="hidden" defaultValue={currOportunidade?.id ?? -1} name="id" />
+              </div>
+
               <div>
                 <Label>Cliente</Label>
-                <Input placeholder="Galego" type="text" name="cliente"/>
+                <Input 
+                  placeholder="Galego" 
+                  type="text" 
+                  name="cliente" 
+                  defaultValue={currOportunidade?.cliente ?? ""} 
+                  readOnly={isEdit}
+                  className={`${isEdit ? "bg-neutral-200! cursor-not-allowed" : "bg-white"}`}
+                />
               </div>
 
               <div>
@@ -125,13 +214,14 @@ export default function OportunidadePage() {
                   ]}
                   name="status"
                   onChange={() => {}}
+                  defaultValue={currOportunidade?.status}
                 />
               </div>
 
 
               <div>
                 <Label>Valor</Label>
-                <Input placeholder="1234,56" type="text" name="valor"/>
+                <Input placeholder="1234,56" type="text" name="valor" defaultValue={currOportunidade?.valor}/>
               </div>
 
               <Button type="submit">
@@ -141,6 +231,38 @@ export default function OportunidadePage() {
             </Form>
           </div>
         </Modal>
+
+        <Modal
+          isOpen={deleteModalOpen}
+          onClose={() => setDeleteModalOpen(false)}
+          title="Excluir oportunidade"
+        >
+          <div className="w-[min(100vw,700px)] p-4">
+            <div>Deseja realmente excluir o registro?</div>
+          </div>
+          <div className="w-full flex justify-stretch gap-4 p-4">
+            <Button 
+              onClick={() => deleteOportunidade(currOportunidade?.id)}
+              className="w-full bg-red-500 hover:bg-red-700"
+            >
+              {isLoadingEnvio && <Spinner />}
+              Confirmar
+            </Button>
+
+            <Button
+              onClick={() => setDeleteModalOpen(false)}
+              className="text-neutral-600 border-neutral-800 w-full"
+              variant="outline"
+
+            >
+              Cancelar
+            </Button>
+          </div>
+
+
+
+        </Modal>
+
       </div>
     </>
   );

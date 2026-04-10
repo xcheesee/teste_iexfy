@@ -27,6 +27,8 @@ Implementar uma aplicacao fullstack de um painel de oportunidades comerciais
 
 - Criacao de oportunidade levara em conta a data no momento da criacao, sem ser permitido input do usuario
 
+- Por nao necessitar das features encontradas no Next.js(SSR, SEO optimization) e possuir um bundle relativamente pequeno (2 telas com alguns componentes), foi escolhido utilizar React.js + tailwind para desenvolvimento do frontend, utilizando um admin dashboard como baseline.
+
 #### Backend
 
 - API CRUD simples, com validacao/sanitizacao de dados; tratamento de erros e middleware de logging, utilizando banco de dados SQLite para permanencia de dados
@@ -34,5 +36,13 @@ Implementar uma aplicacao fullstack de um painel de oportunidades comerciais
 - Deve ser utilizado modulo http, built-in node
 
 - Database:
-    Sqlite nao possui um data type similar ao "MONEY", entao valores monetarios serao salvos no formato "BIGING" para evitar erros de floating point -> 123.45 sera salvo como 12345, com o "casting" sendo realizado pelo backend
+    - Sqlite nao possui um data type similar ao "MONEY", entao valores monetarios serao salvos no formato "BIGING" para evitar erros de floating point -> 123.45 sera salvo como 12345, com o "casting" sendo realizado pelo backend
+    
+    - Datas serao salvas em formato de texto no formato ISO 8601(YYYY-MM-DD HH:MM:SS.SSS)
+
+
+### Features Futuras
+
+- Caching de dados do banco
+- Implementacao de autenticacao
 

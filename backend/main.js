@@ -83,7 +83,7 @@ const server = http.createServer(async (req, res) => {
 
             }
 
-            if(req.method === "PUT" && pathArr[0] === "oportunidades" && pathArr.length === 2) {
+            if(req.method === "PATCH" && pathArr[0] === "oportunidades" && pathArr.length === 2) {
                 const body = req.body;
 
                 const id = parseInt(pathArr[1]);

@@ -2,7 +2,7 @@ import ApiError from "../Utils/ApiError.js";
 import parseError from "../Utils/parseError.js";
 
 async function jsonParser(req, res, next) {
-    if(req.method === "POST" || req.method === "PUT") {
+    if(req.method === "POST" || req.method === "PATCH" || req.method === "PUT") {
         let body = '';
 
         req.on('data', (chunk) => {

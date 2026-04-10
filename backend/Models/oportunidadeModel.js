@@ -4,7 +4,7 @@ class Oportunidade {
     constructor({cliente, status, valor, data}) {
         this.cliente = cliente;
         this.status = status;
-        this.valor = valor.replace(/\D+/g, "");
+        this.valor = String(valor).replace(/\D+/g, "");
         this.data = new Date().toISOString();
     }
 

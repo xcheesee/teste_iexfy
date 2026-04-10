@@ -13,11 +13,12 @@ interface FeedbackState {
   title: string;
   message: string;
   type: FeedbackType;
+  onHide?: () => void;
 }
 
 interface FeedbackContextValue {
   state: FeedbackState;
-  show: (title: string, message: string, type?: FeedbackType) => void;
+  show: (title: string, message: string, type?: FeedbackType, onHide?: () => void) => void;
   hide: () => void;
 }
 
@@ -31,19 +32,25 @@ export function FeedbackModalProvider({ children }: { children: ReactNode }) {
     title: "",
     message: "",
     type: "success",
+    onHide: () => {}
   });
 
-  const show = useCallback((title: string, message: string, type: FeedbackType = "success") => {
+  const show = useCallback((title: string, message: string, type: FeedbackType = "success", onHide: () => void = () => {}) => {
     setState({
       open: true,
       title,
       message,
       type,
+      onHide,
     });
   }, []);
 
   const hide = useCallback(() => {
-    setState((prev) => ({ ...prev, open: false }));
+    setState((prev) => {
+      prev.onHide?.();
+
+      return { ...prev, open: false };
+    });
   }, []);
 
   return (

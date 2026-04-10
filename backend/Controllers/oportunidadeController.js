@@ -43,14 +43,18 @@ function update(id, oportunidade) {
         throw new ApiError("Id informado incongruente com registro em banco", 400, "BAD_REQUEST");
     }
 
-    if(!!oportunidade.status && !Status.includes(oportunidade.status)) {
+    if(!!oportunidade?.status && !Status.includes(oportunidade?.status)) {
         throw new ApiError("Status Invalido", 400, "BAD_REQUEST");
+    }
+
+    if(!oportunidade?.status || !oportunidade?.valor) {
+        throw new ApiError("Nenhum dado enviado", 400, "BAD_REQUEST");
     }
 
     const updatedOportunidade = new Oportunidade({
         cliente: row.cliente,
-        status:  oportunidade.status ?? row.status,
-        valor:   oportunidade.valor  ?? row.valor, 
+        status:  oportunidade?.status ?? row?.status,
+        valor:   oportunidade?.valor  ?? row?.valor, 
         data:  row.data
     });
 
