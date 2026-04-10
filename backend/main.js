@@ -30,11 +30,12 @@ const server = http.createServer(async (req, res) => {
         const pathArr = parsed.pathname.split('/').filter(val => val != '');
 
         try {
-              if (req.method === "OPTIONS") {
-                res.writeHead(204);
-                res.end();
-                return;
-              }
+            if (req.method === "OPTIONS") {
+              res.writeHead(204);
+              res.end();
+              return;
+            }
+
             if(req.method === "GET" && pathArr[0] === "oportunidades") {
                 if(pathArr.length === 1) {
 
@@ -47,7 +48,7 @@ const server = http.createServer(async (req, res) => {
                     const id = parseInt(pathArr[1]);
 
                     if(Number.isNaN(id)) {
-                        throw new ApiError("/oportunidade/:id deve ser um numero", 400, "INVALID_ID");
+                        throw new ApiError("/oportunidades/:id deve ser um numero", 400, "INVALID_ID");
                     }
 
                     const payload = oportunidadeController.get(id);
@@ -96,7 +97,7 @@ const server = http.createServer(async (req, res) => {
                 return;
             }
 
-            if(req.method === "GET" && pathArr[0] === "overview" && pathArr.length === 1) {
+            if(req.method === "GET" && pathArr[0] === "dashboard" && pathArr[1] == "resumo" && pathArr.length === 2) {
                     const payload = oportunidadeController.overview();
                     parseRes(res, {payload})
                     return;

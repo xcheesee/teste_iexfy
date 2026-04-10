@@ -157,7 +157,7 @@ export default function OportunidadePage() {
                 {label: "Todas", value: ""},
                 {label: "Abertas", value: "Aberta"},
                 {label: "Perdidas", value: "Perdida"},
-                {label: "Ganha", value: "Ganha"}
+                {label: "Ganhas", value: "Ganha"}
               ]}
               onChange={(e) => { setFiltro(e as OportunidadeStatus) }}
             />

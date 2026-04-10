@@ -18,7 +18,7 @@ export default function Home() {
 
   async function getOverview() {
     setIsLoading(true);
-    const res = await fetch(import.meta.env.VITE_API_URL + "/overview");
+    const res = await fetch(import.meta.env.VITE_API_URL + "/dashboard/resumo");
     const data = await res.json();
 
     await new Promise((res, _) => setTimeout(() => res(""), 1000));
