@@ -6,7 +6,10 @@ import LOG from "../Enums/logTypes.js";
 function logger(req, res, next) {
     try {
         res.on("finish", () => {
-            const logsFilePath = path.join(process.cwd(), "Storage", "logs.txt");
+            const dir = path.join(process.cwd(), "Storage")
+            const logsFilePath = path.join(dir, "logs.txt");
+
+            fs.mkdirSync(dir, { recursive: true });
 
             const message = `Log ${LOG.INFO}: ${req.method} ${req.url} ${res.statusCode} - ${new Date().toISOString()} \n`;
         
