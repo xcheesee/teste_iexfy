@@ -1,6 +1,5 @@
 import {
   createContext,
-  useContext,
   useState,
   useCallback,
   ReactNode,
@@ -16,7 +15,7 @@ interface FeedbackState {
   onHide?: () => void;
 }
 
-interface FeedbackContextValue {
+export interface FeedbackContextValue {
   state: FeedbackState;
   show: (title: string, message: string, type?: FeedbackType, onHide?: () => void) => void;
   hide: () => void;
@@ -60,14 +59,4 @@ export function FeedbackModalProvider({ children }: { children: ReactNode }) {
   );
 }
 
-export function useFeedbackModal(): FeedbackContextValue {
-  const ctx = useContext(FeedbackModalContext);
-
-  if (!ctx) {
-    throw new Error(
-      "useFeedbackModal must be used within FeedbackModalProvider"
-    );
-  }
-
-  return ctx;
-}
+export { FeedbackModalContext };

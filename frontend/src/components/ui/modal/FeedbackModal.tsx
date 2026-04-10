@@ -1,7 +1,7 @@
 import { useEffect } from "react";
-import { useFeedbackModal } from "../../providers/FeedbackModalProvider";
 import { Modal } from "./index";
 import Button from "../button/Button";
+import { useFeedbackModal } from "../../../hooks/useFeedbackModal";
 
 export function FeedbackModal() {
   const { state, hide } = useFeedbackModal();

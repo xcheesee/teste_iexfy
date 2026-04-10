@@ -13,7 +13,7 @@ import Input from "../../components/form/input/InputField";
 import Select from "../../components/form/Select";
 import formDataToObject from "../../utils/formDataToObject";
 import OportunidadeStatus from "../../types/OportunidadeStatus";
-import { useFeedbackModal } from "../../components/providers/FeedbackModalProvider";
+import { useFeedbackModal } from "../../hooks/useFeedbackModal";
 
 export default function OportunidadePage() {
   const [oportunidades, setOportunidades] = useState<Oportunidade[]|null>(null);
@@ -52,7 +52,12 @@ export default function OportunidadePage() {
           body: JSON.stringify(body)
         });
 
-        showFeedbackModal("Sucesso!", "Oportunidade alterada com sucesso!");
+        showFeedbackModal(
+          "Sucesso!", 
+          "Oportunidade alterada com sucesso!",
+          "success", 
+          () => {setFormModalOpen(false)}
+        );
       } else {
         await fetch(import.meta.env.VITE_API_URL + "/oportunidades", {
           method: "POST",
