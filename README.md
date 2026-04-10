@@ -1,12 +1,16 @@
 # Teste Desenvolvedor Jr. IEXFY
 
-## Bootstrap das aplicações
+## Desafio Pratico
 
-### Requisitos
+Implementar uma aplicação fullstack de um painel de oportunidades comerciais
+
+### Bootstrap das aplicações
+
+#### Requisitos
 
 Docker v. 29>
 
-### Operações
+#### Operações
 
 Após clonar o repositório realize as seguintes operações:
 
@@ -18,7 +22,7 @@ Após clonar o repositório realize as seguintes operações:
 
 - inicialize os containers no root do projeto (onde docker-compose.yml este localizado)
 
-#### Linux
+##### Linux
 
 Utilizando bash:
 
@@ -30,7 +34,7 @@ Utilizando bash:
 
 - `docker compose up --build`
 
-#### Windows
+##### Windows
 
 Utilizando o powershell:
 
@@ -42,13 +46,31 @@ Utilizando o powershell:
 
 - `docker compose up --build`
 
-## Desafio Pratico
 
-Implementar uma aplicação fullstack de um painel de oportunidades comerciais
 
-### Considerações Técnicas
+## Desafio Logico
 
-#### Frontend
+## Execucao das funcoes
+
+### Requisitos
+
+Node v. 25>
+
+#### Analise de Vendas
+
+- va a pasta do projeto
+- na pasta "logica", execute o comando `node vendasParses.js`
+
+#### Funcao recursiva
+
+- va a pasta do projeto
+- na pasta "logica", execute o comando `node arrFlattener.js`
+
+## Considerações Técnicas
+
+- Sera utilizado docker para orquestracao dos ambientes de desenvolvimento
+
+### Frontend
 
 - Interface para consumo de api simples, sem autenticação e SEO 
 
@@ -56,11 +78,13 @@ Implementar uma aplicação fullstack de um painel de oportunidades comerciais
 
 - Por não necessitar das features encontradas no Next.js(SSR, SEO optimization) e possuir um bundle relativamente pequeno (2 telas com alguns componentes), foi escolhido utilizar React.js + tailwind para desenvolvimento do frontend, utilizando um admin dashboard como baseline.
 
-#### Backend
+### Backend
 
 - API CRUD simples, com validação/sanitização de dados; tratamento de erros e middleware de logging, utilizando banco de dados SQLite para permanência de dados
 
 - Deve ser utilizado modulo http, built-in node
+
+- Sera utilizado Padrao MVC, Com implementacoes de Controllers, Services e Models, para implementar separation of concerns da melhor maneira possivel
 
 - Database:
 

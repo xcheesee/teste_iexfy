@@ -11,6 +11,7 @@ function get(id) {
             deleted_at IS NULL;
     `);
     const result = query.get(id);
+    result.valor = parseValor(result.valor);
 
     return result;
 

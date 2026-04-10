@@ -51,6 +51,7 @@ function update(id, oportunidade) {
         throw new ApiError("Nenhum dado enviado", 400, "BAD_REQUEST");
     }
 
+    //Quando ha updates de oportunidade, deve ser permitido apenas a alteracao de status e valor, caso enviados
     const updatedOportunidade = new Oportunidade({
         cliente: row.cliente,
         status:  oportunidade?.status ?? row?.status,

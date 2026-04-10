@@ -4,7 +4,7 @@ class Oportunidade {
     constructor({cliente, status, valor, data}) {
         this.cliente = cliente;
         this.status = status;
-        this.valor = String(valor).replace(/\D+/g, "");
+        this.valor = String(valor).replace(/[,\.]/g, "");
         this.data = new Date().toISOString();
     }
 
@@ -19,8 +19,8 @@ class Oportunidade {
                 return false;
         }
 
+        //Apos o strip de separacoes numericas, deve ser verificado se eh um numero valido
         const isNumeric = /^\d+$/;
-
         if(!isNumeric.test(this.valor)) {
             return false
         } 
