@@ -14,7 +14,8 @@ export default function Metricas({
   dados,
   isLoading
 }: MetricasProps) {
-  if(isLoading) return <div className="w-full flex justify-center"><Spinner /></div>
+  if(isLoading) return (<div className="w-full flex justify-center"><Spinner /></div>);
+
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-6">
       <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] md:p-6">
