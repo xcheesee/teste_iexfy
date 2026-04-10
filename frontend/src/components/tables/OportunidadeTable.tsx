@@ -95,10 +95,10 @@ function OportunidadeTable({
                     </Badge>
                 </TableCell>
 
-                <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
-                  <div className="flex -space-x-2">
+                <TableCell className="px-5 py-4 text-gray-500 text-start text-theme-sm dark:text-gray-400">
+                  <div className="flex">
                       <div
-                        className="w-12 h-6 overflow-hidden border-2 border-white rounded-full dark:border-gray-900"
+                        className="w-24 h-6 overflow-hidden"
                       >
                         {oportunidade.valor}
                       </div>

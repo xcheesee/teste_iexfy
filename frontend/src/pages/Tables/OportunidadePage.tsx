@@ -231,7 +231,7 @@ export default function OportunidadePage() {
 
               <Button type="submit">
                 {isLoadingEnvio && <Spinner />}
-                Enviar
+                {isEdit ? "Editar" : "Enviar" }
               </Button>
             </Form>
           </div>
