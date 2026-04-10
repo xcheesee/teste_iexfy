@@ -14,6 +14,7 @@ import Select from "../../components/form/Select";
 import formDataToObject from "../../utils/formDataToObject";
 import OportunidadeStatus from "../../types/OportunidadeStatus";
 import { useFeedbackModal } from "../../hooks/useFeedbackModal";
+import { useCurrencyMask } from "../../hooks/useCurrencyMask";
 
 export default function OportunidadePage() {
   const [oportunidades, setOportunidades] = useState<Oportunidade[]|null>(null);
@@ -27,6 +28,7 @@ export default function OportunidadePage() {
 
   const [isEdit, setIsEdit] = useState(false);
 
+  const { setInteiro, inputProps } = useCurrencyMask(0); 
   const { show: showFeedbackModal } = useFeedbackModal();
 
   async function getOportunidades() {
@@ -112,12 +114,14 @@ export default function OportunidadePage() {
 
   function handleEditOportunidade(oportunidade: Oportunidade) {
     setCurrOportunidade(oportunidade);
+    setInteiro(Number(oportunidade.valor.replace(/\D/g, "")));
     setIsEdit(true);
     setFormModalOpen(true);
   }
 
   function hadleAddOportunidade() {
     setCurrOportunidade(null);
+    setInteiro(0);
     setIsEdit(false);
     setFormModalOpen(true);
   }
@@ -226,7 +230,11 @@ export default function OportunidadePage() {
 
               <div>
                 <Label>Valor</Label>
-                <Input placeholder="1234,56" type="text" name="valor" defaultValue={currOportunidade?.valor}/>
+                <Input 
+                  name="valor" 
+                  {...inputProps}
+                  defaultValue={currOportunidade?.valor}
+                />
               </div>
 
               <Button type="submit">

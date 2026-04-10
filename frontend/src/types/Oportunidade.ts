@@ -4,7 +4,7 @@ interface Oportunidade {
     id: number;
     cliente: string;
     status: OportunidadeStatus;
-    valor: number;
+    valor: string;
     data?: string
 };
 

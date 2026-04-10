@@ -8,12 +8,28 @@ Docker v. 29>
 
 ### Operacoes
 
-Apos clonar o repositorio realize as seguintes operacoes no terminal:
+Apos clonar o repositorio realize as seguintes operacoes:
 
+- va aa pasta do projeto
+- crie um arquivo .env dentro da pasta "/frontend"
+- adicione o valor 'VITE_API_URL="/api"' no .env criado
+- inicialize os containers no root do projeto (onde docker-compose.yml esta localizado)
+
+#### Linux
+
+Utilizando bash:
 - `cd teste_iexfy`
-- crie um arquivo .env utilizando `touch ./frontend/.env`
-- adicione o valor (VITE_API_URL="/api") utilizando `echo VITE_API_URL="/api" > ./frontend/.env`
-- inicialize os container com o comando`docker compose up --build`
+- `touch ./frontend/.env`
+- `echo VITE_API_URL="/api" > ./frontend/.env`
+- `docker compose up --build`
+
+#### Windows
+
+Utilizando o powershell:
+- `cd teste_iexfy`
+- `New-Item -Path ./frontend/.env -ItemType File -Force`
+- `echo 'VITE_API_URL="/api"' > ./frontend/.env`
+- `docker compose up --build`
 
 ## Desafio Pratico
 
@@ -45,4 +61,5 @@ Implementar uma aplicacao fullstack de um painel de oportunidades comerciais
 
 - Caching de dados do banco
 - Implementacao de autenticacao
+- Implementar paginacao na API
 

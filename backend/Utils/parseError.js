@@ -1,5 +1,3 @@
-import ApiError from "./ApiError.js";
-
 function parseError(res, error) {
     const errJson = {
         error: error.message,

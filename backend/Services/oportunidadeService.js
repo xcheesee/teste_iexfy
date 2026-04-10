@@ -1,4 +1,5 @@
 import { db } from "../Data/dbContext.js";
+import parseValor from "../Utils/parseValor.js";
 
 const TABLE = 'oportunidades';
 
@@ -19,7 +20,12 @@ function getAll() {
     const query = db.prepare(`SELECT * FROM ${TABLE} WHERE deleted_at IS NULL;`);
     const result = query.all();
 
-    return result;
+    const dados = result.map((oportunidade) => {
+        oportunidade.valor = parseValor(oportunidade.valor);
+        return oportunidade;
+    })
+
+    return dados;
 }
 
 function remove(id) {
