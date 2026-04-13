@@ -47,6 +47,9 @@ Utilizando o powershell:
 - `docker compose up --build`
 
 
+**Acesse a Aplicacao na URL http://localhost:5173**
+
+**Backend: http://localhost:3000**
 
 ## Desafio Logico
 
